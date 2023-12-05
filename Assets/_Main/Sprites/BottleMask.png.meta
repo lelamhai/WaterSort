@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 16d11c8c7af3f3540b7273ca34e7a134
+guid: 621c192d99098f24ba29187392ff43e5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8251610326034200038
-    second: b1_0
+      213: -2374327802288073035
+    second: BottleMask_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: b1_0
+      name: BottleMask_0
       rect:
         serializedVersion: 2
-        x: 363
-        y: 24
-        width: 296
-        height: 974
+        x: 269
+        y: 5
+        width: 486
+        height: 1019
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +140,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a1a49cb90246c7d80800000000000000
-      internalID: -8251610326034200038
+      spriteID: 5b6194c8171bc0fd0800000000000000
+      internalID: -2374327802288073035
       vertices: []
       indices: 
       edges: []
@@ -157,7 +157,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      b1_0: -8251610326034200038
+      BottleMask_0: -2374327802288073035
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
