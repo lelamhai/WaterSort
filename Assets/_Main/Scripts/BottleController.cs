@@ -221,10 +221,87 @@ public class BottleController : BaseMonoBehaviour
     [SerializeField] private List<BaseItemColorDatabase> _listColors = new List<BaseItemColorDatabase>();
     [SerializeField] private List<float> _rotationBottle;
     [SerializeField] private List<float> _fillBottle;
+    [SerializeField] private float _timePour = 3;
+
+    [Header("Curve")]
+    [SerializeField] private AnimationCurve _scaleAndRotation;
+    [SerializeField] private AnimationCurve _fillColor;
+    [SerializeField] private AnimationCurve _speed;
+
 
     private void Start()
     {
+        UpdateColors();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            PourWater();
+        }
+    }
+
+    private void UpdateColors()
+    {
         _bottleMask.UpdateColorsOnShader(_listColors, _fillBottle);
+    }
+
+    private void PourWater()
+    {
+        StartCoroutine(IE_BottleDown());
+    }
+
+    private IEnumerator IE_BottleDown()
+    {
+        float t = 0;
+        float lerpValue;
+        float angleValue;
+
+        while (t < _timePour)
+        {
+            lerpValue = t / _timePour;
+            angleValue = Mathf.Lerp(0, 90f, lerpValue);
+
+            transform.eulerAngles = new Vector3(0, 0, angleValue);
+            _bottleMask.SetScaleAndRotation(_scaleAndRotation.Evaluate(angleValue));
+            _bottleMask.SetFillColor(_fillColor.Evaluate(angleValue));
+
+            t += Time.deltaTime *_speed.Evaluate(angleValue);
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        angleValue = 90f;
+        transform.eulerAngles = new Vector3 (0, 0, angleValue);
+        _bottleMask.SetScaleAndRotation(_scaleAndRotation.Evaluate(angleValue));
+        _bottleMask.SetFillColor(_fillColor.Evaluate(angleValue));
+
+        StartCoroutine(IE_BottleUp());
+    }
+
+    private IEnumerator IE_BottleUp()
+    {
+        float t = 0;
+        float lerpValue;
+        float angleValue;
+
+        while (t < _timePour)
+        {
+            lerpValue = t / _timePour;
+            angleValue = Mathf.Lerp(90f, 0, lerpValue);
+
+            transform.eulerAngles = new Vector3(0, 0, angleValue);
+            _bottleMask.SetScaleAndRotation(_scaleAndRotation.Evaluate(angleValue));
+
+            t += Time.deltaTime;
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        angleValue = 0;
+        transform.eulerAngles = new Vector3(0, 0, angleValue);
+        _bottleMask.SetScaleAndRotation(_scaleAndRotation.Evaluate(angleValue));
     }
 
     protected override void SetDefaultValue()
@@ -232,6 +309,7 @@ public class BottleController : BaseMonoBehaviour
         LoadBottleMask();
         LoadDataFillBottle();
         LoadDataRotationBottle();
+        LoadTimePour();
     }
 
     private void LoadBottleMask()
@@ -250,9 +328,14 @@ public class BottleController : BaseMonoBehaviour
 
     private void LoadDataRotationBottle()
     {
-        _rotationBottle.Add(54);
+        _rotationBottle.Add(51);
         _rotationBottle.Add(71);
         _rotationBottle.Add(83);
         _rotationBottle.Add(90);
+    }
+
+    private void LoadTimePour()
+    {
+        _timePour = 3f;
     }
 }

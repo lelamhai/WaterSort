@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +15,16 @@ public class BottleMask : BaseMonoBehaviour
             _mask.material.SetColor(keyTemp, _list[i].Model.Color);
             _mask.material.SetFloat("_FillAmount", rotation[i + 1]);
         }
+    }
+
+    public void SetScaleAndRotation(float angle)
+    {
+        _mask.material.SetFloat("_ScaleAndRotate",angle);
+    }
+
+    public void SetFillColor(float value)
+    {
+        _mask.material.SetFloat("_FillAmount", value);
     }
 
     protected override void SetDefaultValue()
