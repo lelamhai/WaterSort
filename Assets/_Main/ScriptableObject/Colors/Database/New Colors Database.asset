@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea4b4f1a05dcc554593d147161f8feb7, type: 3}
+  m_Name: New Colors Database
+  m_EditorClassIdentifier: 
+  Database:
+    list:
+    - Key: 0
+      Value: {fileID: 11400000, guid: 8bf3b90502612cd4bb3b13413dd3043a, type: 2}
+    - Key: 1
+      Value: {fileID: 11400000, guid: 02d079aebe3feb24495703a2bc7de39d, type: 2}
+    - Key: 2
+      Value: {fileID: 11400000, guid: b0c5deebb4505314ca9b4b150b4dedd0, type: 2}
+    - Key: 3
+      Value: {fileID: 11400000, guid: 8085c98d578aab04193e5cce33ff0ef8, type: 2}
+    keyCollision: 0

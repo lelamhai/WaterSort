@@ -4,16 +4,16 @@ public abstract class BaseItemDatabase : ScriptableObject
 {
     private void Awake()
     {
+        //SetPrefab();
         SetInfo();
-        SetPrefab();
     }
 
     private void Reset()
     {
-        SetPrefab();
+        //SetPrefab();
         SetInfo();
     }
 
+    //protected abstract void SetPrefab();
     protected abstract void SetInfo();
-    protected abstract void SetPrefab();
 }
