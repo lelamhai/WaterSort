@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class BottleController : BaseMonoBehaviour
@@ -216,18 +217,44 @@ public class BottleController : BaseMonoBehaviour
     //    _bottleMask.material.SetFloat("_FillAmount", _bottleMask.material.GetFloat("_FillAmount") + fillAmountAdd);
     //}
 
+    [Header("Reference")]
     [SerializeField] private BottleMask _bottleMask;
+    [SerializeField] private List<Transform> _points;
+
+    [Header("Info bottle")]
     [SerializeField] private int _slots = 4;
     [SerializeField] private List<BaseItemColorDatabase> _listColors = new List<BaseItemColorDatabase>();
     [SerializeField] private List<float> _rotationBottle;
     [SerializeField] private List<float> _fillBottle;
-    [SerializeField] private float _timePour = 3;
 
     [Header("Curve")]
     [SerializeField] private AnimationCurve _scaleAndRotation;
     [SerializeField] private AnimationCurve _fillColor;
     [SerializeField] private AnimationCurve _speed;
 
+    [Header("Me")]
+    [SerializeField] private float _timePour = 3;
+    private float _direction = 1f;
+
+    public int Slots
+    {
+        get => _slots;
+    }
+
+    public List<BaseItemColorDatabase> ListColor {
+        get => _listColors; 
+    }
+
+    public List<Transform> Points
+    {
+        get => _points;
+    }
+
+    public float Direction
+    {
+        set => _direction = value;
+    }
+         
 
     private void Start()
     {
@@ -263,7 +290,8 @@ public class BottleController : BaseMonoBehaviour
             lerpValue = t / _timePour;
             angleValue = Mathf.Lerp(0, 90f, lerpValue);
 
-            transform.eulerAngles = new Vector3(0, 0, angleValue);
+
+            transform.eulerAngles = new Vector3(0, 0, _direction * angleValue);
             _bottleMask.SetScaleAndRotation(_scaleAndRotation.Evaluate(angleValue));
             _bottleMask.SetFillColor(_fillColor.Evaluate(angleValue));
 
@@ -273,7 +301,7 @@ public class BottleController : BaseMonoBehaviour
         }
 
         angleValue = 90f;
-        transform.eulerAngles = new Vector3 (0, 0, angleValue);
+        transform.eulerAngles = new Vector3 (0, 0, _direction * angleValue);
         _bottleMask.SetScaleAndRotation(_scaleAndRotation.Evaluate(angleValue));
         _bottleMask.SetFillColor(_fillColor.Evaluate(angleValue));
 
@@ -291,7 +319,7 @@ public class BottleController : BaseMonoBehaviour
             lerpValue = t / _timePour;
             angleValue = Mathf.Lerp(90f, 0, lerpValue);
 
-            transform.eulerAngles = new Vector3(0, 0, angleValue);
+            transform.eulerAngles = new Vector3(0, 0, _direction * angleValue);
             _bottleMask.SetScaleAndRotation(_scaleAndRotation.Evaluate(angleValue));
 
             t += Time.deltaTime;
@@ -300,13 +328,35 @@ public class BottleController : BaseMonoBehaviour
         }
 
         angleValue = 0;
-        transform.eulerAngles = new Vector3(0, 0, angleValue);
+        transform.eulerAngles = new Vector3(0, 0, _direction * angleValue);
         _bottleMask.SetScaleAndRotation(_scaleAndRotation.Evaluate(angleValue));
+    }
+
+
+    public void MoveBottle(Vector3 bottle1, Vector3 bottle2)
+    {
+        StartCoroutine(WaitAndMove(bottle1, bottle2));
+    }
+
+    private IEnumerator WaitAndMove(Vector3 bottle1, Vector3 bottle2)
+    {
+        float t = 0;
+        float lerpValue;
+
+        while (t < _timePour)
+        {
+            lerpValue = t / _timePour;
+            transform.position = Vector3.Lerp(bottle1, bottle2, lerpValue); // lerp from A to B in one second
+
+            t += Time.deltaTime;
+            yield return new WaitForEndOfFrame(); // wait for next frame
+        }
     }
 
     protected override void SetDefaultValue()
     {
         LoadBottleMask();
+        //LoadPoint();
         LoadDataFillBottle();
         LoadDataRotationBottle();
         LoadTimePour();
@@ -316,6 +366,11 @@ public class BottleController : BaseMonoBehaviour
     {
         _bottleMask = transform.Find("BottleMask").GetComponent<BottleMask>(); 
     }
+
+    //private void LoadPoint()
+    //{
+        
+    //}
 
     private void LoadDataFillBottle()
     {
